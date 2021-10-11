@@ -9,7 +9,7 @@ It can look for a given format or go through a list of formats trying them one b
 
 ## Limitations
 
-Dates only and no times or timezone handling.
+Dates only and no times or time zone handling.
 
 It only handles english month names and three character abbreviations and the list given has UK day month ordering (although it could be easily changed to support US month day).
 
@@ -22,7 +22,7 @@ pip install dateparser_en_gb
 ## Usage 
 
 import dateparser_en_gb
-
+format = 'dd mon yyyy' 
 a_date =  ( long_text , format )
 a_date =  ( long_text , format_list )
 
