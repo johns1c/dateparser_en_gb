@@ -7,6 +7,7 @@
 # has uk day month ordering.  
 #
 # the aim is to be simple and operate in a py2exe enviroment 
+#  the yyyy pattern used to accept two, three or four digits - now it is only 4 
 #
 __title__  = 'dateparser_en_gb'
 __author__ = 'Chris Johnson'
@@ -15,33 +16,35 @@ import re
 import datetime    
 all_patterns = [
         'dd/mm/yyyy' , 
-        'dd-mm-yyyy' , 
-        'dd Mon yyyy' ,  
-        'd Mon yyyy' ,
-        'dd Month yyyy' , 
-        'd Month yyyy' ,
-        'Month dd, yyyy' ,'Month ddth, yyyy' , 
-        'ddth Mon yyyy' , 'dth Mon yyyy' ,
-        'ddth Month yyyy', 'dth Month yyyy',
-        'Mon dd, yyyy' ,   'Mon dd, yyyy' ,                  
-        'Mon ddth yyyy' ,   
-        'Month ddth yyyy' ,
-        'Mon ddth, yyyy' ,
-        'Month ddth, yyyy' ,
+        'dd-mm-yyyy' , 'yyyy-mm-dd' , 
+        'dd Month yyyy',   'dd Month, yyyy',    'dd Month, yyyy'  ,   
+        'ddth Month yyyy', 'ddth Month, yyyy' , 'ddth Month,yyyy' , 
+        'Month dd yyyy',   'Month dd, yyyy',      'Month dd,yyyy' ,   
+        'Month ddth yyyy', 'Month ddth, yyyy' , 'Month ddth,yyyy' , 
+        'dd Mon yyyy',   'dd Mon, yyyy',            'dd Mon,yyyy' ,   
+        'ddth Mon yyyy', 'ddth Mon, yyyy' ,       'ddth Mon,yyyy' , 
+        'Mon dd yyyy',   'Mon dd, yyyy', 'Mon dd,yyyy'  ,   
+        'Mon ddth yyyy', 'Mon ddth, yyyy' , 'Mon ddth,yyyy' , 
+        'dd MONTH yyyy',   'dd MONTH, yyyy',    'dd MONTH, yyyy'  ,   
+        'ddth MONTH yyyy', 'ddth MONTH, yyyy' , 'ddth MONTH,yyyy' , 
+        'MONTH dd yyyy',   'MONTH dd, yyyy', 'MONTH dd, yyyy'  ,   
+        'MONTH ddth yyyy', 'MONTH ddth, yyyy' , 'MONTH ddth,yyyy' , 
+        'dd MON yyyy',   'dd MON, yyyy',    'dd MON, yyyy'  ,   
+        'ddth MON yyyy', 'ddth MON, yyyy' , 'ddth MON,yyyy' , 
+        'MON dd yyyy',   'MON dd, yyyy', 'MON dd, yyyy'  ,   
+        'MON ddth yyyy', 'MON ddth, yyyy' , 'MON ddth,yyyy' , 
+         'dd Month', 'ddth Month',  'dth Month' ,
+         'dd Mon', 'ddth Mon',  'dth Mon' ,
+         'dd MONTH', 'ddth MONTH',  'dth MONTH' ,
+         'dd MON', 'ddth MON',  'dth MON' ,
+        'Month yyyy' , 'Mon yyyy' , 'Monthyyyy' , 
+        'MONTH yyyy' , 'MON yyyy' ,
+        'Month ddth' , 'Mon ddth' , 'MONTH ddth' , 'MON ddth' ,
+        'Month dd' , 'Mon dd' , 'MONTH dd' , 'MON dd' ,
+        'mm/yyyy' ,
         'yyyy-mm' ,
-        'dd Mon' ,
-        'dd MON' ,
-        'dd Month' ,
-        'ddth Mon' ,
-        'ddth Month' ,
-        'Mon yyyy' ,
-        'Month yyyy' ,
-        'Mon dd' ,
-        'Month dd' ,
-        'Mon ddth' ,
-        'Month ddth' ,
-        'Mon' ,
-        'Month' ]
+        'Mon' , 'MON' ,
+        'Month', 'MONTH' ]
 
 def find_date( source,  stuff , echo=False) :
         """ finds a date with a given format or a list of formats
@@ -98,7 +101,8 @@ def find_date( source,  stuff , echo=False) :
         ddth = '(?P<d>1st|2nd|3rd|21st|22nd|23rd|31st|\dth|\d\dth|)'
         mm = '(?P<m>01|02|03|04|05|06|07|08|09|10|11|12|1|2|3|4|5|6|7|8|9)'
         yy = r'(?P<y>\d\d)'
-        yyyy = r'(?P<y>\d{2,4})'
+        yyyy = r'(?P<y>\d{4})'
+        
         blank = r'\s'
         comma = ','
         escaped_comma = r'\,'    
