@@ -11,21 +11,25 @@ It can look for a given format or go through a list of formats trying them one b
 
 Dates only and no times or time zone handling.
 
-It only handles english month names and three character abbreviations and the list given has UK day month ordering (although it could be easily changed to support US month day).
+It only handles english month names and three character abbreviations and the list given has UK day month ordering (although it could be easily changed or supplied with alternative patterns to support US month day changing for other languages is more difficult).
 
 Potential for result not to be a real date.
 
 ## Installation
 
+```
 pip install dateparser_en_gb
+```
 
 ## Usage 
 
+```
 import dateparser_en_gb
 format = 'dd mon yyyy' 
 a_date =  ( long_text , format )
 a_date =  ( long_text , format_list )
 
+```
 Format elements - see code for definitive list and meaning.  Also formats may include regex 
 
 * dd - a one or two digit day of month
