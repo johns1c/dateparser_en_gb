@@ -8,6 +8,8 @@
 #
 # the aim is to be simple and operate in a py2exe enviroment 
 #  the yyyy pattern used to accept two, three or four digits - now it is only 4 
+#  the dd pattern so that April 17 now works and an additonal parameter 
+#  allows spacing to be extended 
 #
 __title__  = 'dateparser_en_gb'
 __author__ = 'Chris Johnson'
@@ -42,11 +44,11 @@ all_patterns = [
         'Month ddth' , 'Mon ddth' , 'MONTH ddth' , 'MON ddth' ,
         'Month dd' , 'Mon dd' , 'MONTH dd' , 'MON dd' ,
         'mm/yyyy' ,
-        'yyyy-mm' ,
+        'yyyy-mm' , 'yyyy/mm' ,
         'Mon' , 'MON' ,
         'Month', 'MONTH' ]
 
-def find_date( source,  stuff , echo=False) :
+def find_date( source,  stuff , echo=False, blank_length=1) :
         """ finds a date with a given format or a list of formats
             the date pattern has 
             dd one or two digit day
@@ -66,7 +68,7 @@ def find_date( source,  stuff , echo=False) :
             
         if isinstance( stuff , list ) :
             for pat in stuff :
-                a_date  = find_date( source , pat ) 
+                a_date  = find_date( source , pat ,blank_length=blank_length ) 
                 if a_date is not None  :
                     if echo:
                         print( f"pattern used {pat} " ) 
@@ -97,15 +99,17 @@ def find_date( source,  stuff , echo=False) :
         MonUpper     = f'(?P<m>{MonString.upper()})' 
         
         #dd = r'(?P<d>\d{1,2})' 
-        dd =  r'(?P<d>1|2|3|4|5|6|7|8|9|01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31)'
+        dd = r'(?P<d>(31|30|29|28|27|26|25|24|23|22|21|20|19|18|17|16|15|14|13|12|11|10|9|8|7|6|5|4|3|2|1))'
         
         dd_at_start = r'\b' + dd 
-        ddth = '(?P<d>1st|2nd|3rd|21st|22nd|23rd|31st|\dth|\d\dth|)'
+        ddth = '(?P<d>(1st|2nd|3rd|21st|22nd|23rd|31st|\dth|\d\dth){1})'
         mm = '(?P<m>01|02|03|04|05|06|07|08|09|10|11|12|1|2|3|4|5|6|7|8|9)'
         yy = r'(?P<y>\d\d)'
         yyyy = r'(?P<y>\d{4})'
         
         blank = r'\s'
+        if blank_length > 1 :
+            blank = r'\s{1,9}'.replace( '9'  , str( blank_length )  )
         comma = ','
         escaped_comma = r'\,'    
         
@@ -132,8 +136,8 @@ def find_date( source,  stuff , echo=False) :
         
         match = find(source , pattern ) 
         if  match:
-            #print( self.last_match.groups() ) 
-            day = 0
+
+            day = '99'
             try:
                 day = match.group('d') 
                 day = day.replace( 'st' , '' )
@@ -149,7 +153,8 @@ def find_date( source,  stuff , echo=False) :
                 print( match.groups() ) 
                 print( f"Date Regex >>>>>>>{pattern}<<<<<<" ) 
             except ValueError :
-                print( f'Attribute error on day in date {day=} day pattern = {dd} ' ) 
+                
+                print( f'Value error on day in date {day=} day pattern = {dd} ' ) 
                 print( match.groups() ) 
                 print( f"Date Regex >>>>>>>{pattern}<<<<<<" ) 
                 day = 0 
