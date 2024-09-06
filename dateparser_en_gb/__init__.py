@@ -95,8 +95,10 @@ def find_date( source,  stuff , echo=False) :
         MonStr       = f'(?P<m>{MonString})' 
         MonBothUpper = f'(?P<m>{MonthString.upper()}|{MonString.upper()})' 
         MonUpper     = f'(?P<m>{MonString.upper()})' 
-
-        dd = r'(?P<d>\d+)' 
+        
+        #dd = r'(?P<d>\d{1,2})' 
+        dd =  r'(?P<d>'1|2|3|4|5|6|7|8|9|01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31)'
+        
         dd_at_start = r'\b' + dd 
         ddth = '(?P<d>1st|2nd|3rd|21st|22nd|23rd|31st|\dth|\d\dth|)'
         mm = '(?P<m>01|02|03|04|05|06|07|08|09|10|11|12|1|2|3|4|5|6|7|8|9)'
